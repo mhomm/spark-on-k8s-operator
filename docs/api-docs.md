@@ -259,6 +259,19 @@ DeployMode
 </tr>
 <tr>
 <td>
+<code>proxyUser</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ProxyUser specifies the user to impersonate when submitting the application.
+It maps to the command-line flag &ldquo;&ndash;proxy-user&rdquo; in spark-submit.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>image</code></br>
 <em>
 string
@@ -707,6 +720,21 @@ string
 <td>
 <em>(Optional)</em>
 <p>PriorityClassName stands for the name of k8s PriorityClass resource, it&rsquo;s being used in Volcano batch scheduler.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resources</code></br>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#resourcelist-v1-core">
+Kubernetes core/v1.ResourceList
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Resources stands for the resource list custom request for. Usually it is used to define the lower-bound limit.
+If specified, volcano scheduler will consider it as the resources requested.</p>
 </td>
 </tr>
 </tbody>
@@ -1840,6 +1868,19 @@ DeployMode
 </tr>
 <tr>
 <td>
+<code>proxyUser</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ProxyUser specifies the user to impersonate when submitting the application.
+It maps to the command-line flag &ldquo;&ndash;proxy-user&rdquo; in spark-submit.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>image</code></br>
 <em>
 string
@@ -2568,7 +2609,7 @@ Kubernetes core/v1.Affinity
 </tr>
 <tr>
 <td>
-<code>securityContext</code></br>
+<code>podSecurityContext</code></br>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#podsecuritycontext-v1-core">
 Kubernetes core/v1.PodSecurityContext
@@ -2577,7 +2618,21 @@ Kubernetes core/v1.PodSecurityContext
 </td>
 <td>
 <em>(Optional)</em>
-<p>SecurityContenxt specifies the PodSecurityContext to apply.</p>
+<p>PodSecurityContext specifies the PodSecurityContext to apply.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>securityContext</code></br>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#securitycontext-v1-core">
+Kubernetes core/v1.SecurityContext
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>SecurityContext specifies the container&rsquo;s SecurityContext to apply.</p>
 </td>
 </tr>
 <tr>
@@ -2746,5 +2801,5 @@ map[string]string
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>555c27a</code>.
+on git commit <code>6e9e689</code>.
 </em></p>

@@ -187,6 +187,10 @@ type SparkApplicationSpec struct {
 	// Mode is the deployment mode of the Spark application.
 	// +kubebuilder:validation:Enum={cluster,client}
 	Mode DeployMode `json:"mode,omitempty"`
+	// ProxyUser specifies the user to impersonate when submitting the application.
+	// It maps to the command-line flag "--proxy-user" in spark-submit.
+	// +optional
+	ProxyUser *string `json:"proxyUser,omitempty"`
 	// Image is the container image for the driver, executor, and init-container. Any custom container images for the
 	// driver, executor, or init-container takes precedence over this.
 	// +optional
@@ -463,9 +467,12 @@ type SparkPodSpec struct {
 	// Tolerations specifies the tolerations listed in ".spec.tolerations" to be applied to the pod.
 	// +optional
 	Tolerations []apiv1.Toleration `json:"tolerations,omitempty"`
-	// SecurityContenxt specifies the PodSecurityContext to apply.
+	// PodSecurityContext specifies the PodSecurityContext to apply.
 	// +optional
-	SecurityContenxt *apiv1.PodSecurityContext `json:"securityContext,omitempty"`
+	PodSecurityContext *apiv1.PodSecurityContext `json:"podSecurityContext,omitempty"`
+	// SecurityContext specifies the container's SecurityContext to apply.
+	// +optional
+	SecurityContext *apiv1.SecurityContext `json:"securityContext,omitempty"`
 	// SchedulerName specifies the scheduler that will be used for scheduling
 	// +optional
 	SchedulerName *string `json:"schedulerName,omitempty"`
