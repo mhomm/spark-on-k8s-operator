@@ -8,6 +8,7 @@ The Kubernetes Operator for Apache Spark ships with a command-line tool called `
 
 * [Using a SparkApplication](#using-a-sparkapplication)
 * [Writing a SparkApplication Spec](#writing-a-sparkapplication-spec)
+    * [Specifying Deployment Mode](#specifying-deployment-mode)
     * [Specifying Application Dependencies](#specifying-application-dependencies)
     * [Specifying Spark Configuration](#specifying-spark-configuration)
     * [Specifying Hadoop Configuration](#specifying-hadoop-configuration)
@@ -75,6 +76,11 @@ spec:
   mainApplicationFile: local:///opt/spark/examples/jars/spark-examples_2.12-3.0.0.jar
 ```
 
+### Specifying Deployment Mode
+
+A `SparkApplication` should set `.spec.deployMode` to `cluster`, as `client` is not currently implemented. The driver pod will then run `spark-submit` in `client` mode internally to run the driver program. Additional details of how `SparkApplication`s are run can be found in the [design documentation](design.md#architecture).
+
+
 ### Specifying Application Dependencies
 
 Often Spark applications need additional files additionally to the main application resource to run. Such application dependencies can include for example jars and data files the application needs at runtime. When using the `spark-submit` script to submit a Spark application, such dependencies are specified using the `--jars` and `--files` options. To support specification of application dependenies, a `SparkApplication` uses an optional field `.spec.deps` that in turn supports specifying jars and files, respectively. More specifically, the optional fields `.spec.deps.jars` and`.spec.deps.files` correspond to the `--jars` and `--files` options of the `spark-submit` script, respectively.
@@ -91,6 +97,25 @@ spec:
     files:
       - gs://spark-data/data-file-1.txt
       - gs://spark-data/data-file-2.txt
+```
+
+It's also possible to specify additional jars to obtain from a remote repository by adding maven coordinates to `.spec.deps.packages`. Conflicting transitive dependencies can be addressed by adding to the exclusion list with `.spec.deps.excludePackages`. Additional repositories can be added to the `.spec.deps.repositories` list. These directly translate to the `spark-submit` parameters `--packages`, `--exclude-packages`, and `--repositories`.
+
+NOTE:
+- Each package in the `packages` list must be of the form "groupId:artifactId:version"
+- Each package in the `excludePackages` list must be of the form "groupId:artifactId"
+
+The following example shows how to use these parameters.
+
+```yaml
+spec:
+  deps:
+    repositories:
+      - https://repository.example.com/prod
+    packages:
+      - com.example:some-package:1.0.0
+    excludePackages:
+      - com.example:other-package
 ```
 
 ### Specifying Spark Configuration
