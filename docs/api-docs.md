@@ -719,7 +719,8 @@ string
 </td>
 <td>
 <em>(Optional)</em>
-<p>PriorityClassName stands for the name of k8s PriorityClass resource, it&rsquo;s being used in Volcano batch scheduler.</p>
+<p>PriorityClassName stands for the name of k8s PriorityClass resource, it&rsquo;s being used for job scheduling and 
+preemption, whether with the Volcano batch scheduler or the Kubernetes default scheduler.</p>
 </td>
 </tr>
 <tr>
@@ -798,6 +799,47 @@ If specified, volcano scheduler will consider it as the resources requested.</p>
 <td>
 <em>(Optional)</em>
 <p>PyFiles is a list of Python files the Spark application depends on.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>packages</code></br>
+<em>
+[]string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Packages is a list of maven coordinates of jars to include on the driver and executor
+classpaths. This will search the local maven repo, then maven central and any additional
+remote repositories given by the &ldquo;repositories&rdquo; option.
+Each papckage should be of the form &ldquo;groupId:artifactId:version&rdquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>excludePackages</code></br>
+<em>
+[]string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ExcludePackages is a list of &ldquo;groupId:artifactId&rdquo;, to exclude while resolving the
+dependencies provided in Packages to avoid dependency conflicts.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>repositories</code></br>
+<em>
+[]string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Repositories is a list of additional remote repositories to search for the maven coordinate
+given with the &ldquo;packages&rdquo; option.</p>
 </td>
 </tr>
 </tbody>
@@ -2801,5 +2843,5 @@ map[string]string
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>6e9e689</code>.
+on git commit <code>cf34460</code>.
 </em></p>
